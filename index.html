@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="One Policy but Many Worlds: A Scalable Unified Policy for Versatile Humanoid Locomotion">
+  <meta name="keywords" content="Robotics; Humanoid Locomotion; Reinforcement Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+
+  <!-- MathJax -->
+  <script type="text/javascript" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/file_1.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <title> DreamPolicy </title>
+
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title"> 
+            One Policy but Many Worlds: A Scalable Unified Policy
+            <br>
+            for Versatile Humanoid Locomotion</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Anonymous Authors
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  Main Figure -->
+<section class="hero teaser">
+  <div class="container is-max-desktop" style="max-width: 1100px;">
+    <div class="hero-body">
+      <figure class="image" style="margin-bottom: 30px;">
+        <img src="./static/image/dream.png" class="image-size">
+      </figure>
+      <!-- <h2 class="subtitle has-text-centered"> -->
+      <h2 class="subtitle" style="text-align: left;">
+
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!--/ Abstract. -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Humanoid locomotion faces a critical scalability challenge: traditional reinforcement learning (RL) methods require task-specific rewards and struggle 
+            to leverage growing datasets, even as more training terrains are introduced. We propose <strong>DreamPolicy</strong>, a unified framework that enables a single policy 
+            to master diverse terrains and generalize zero-shot to unseen scenarios by systematically integrating offline data and diffusion-driven motion synthesis. 
+            At its core, DreamPolicy introduces <strong> Humanoid Motion Imagery (HMI) </strong> - future state predictions synthesized through an autoregressive terrain-aware diffusion 
+            planner curated by aggregating rollouts from specialized policies across various distinct terrains. Unlike human motion datasets requiring laborious 
+            retargeting, our data directly captures humanoid kinematics, enabling the diffusion planner to synthesize "dreamed" trajectories that encode 
+            terrain-specific physical constraints. These trajectories act as dynamic objectives for our HMI-conditioned policy, bypassing manual reward 
+            engineering and enabling cross-terrain generalization.
+            Crucially, DreamPolicy addresses the scalability limitations of prior methods: while traditional RL fails to exploit growing datasets, 
+            our framework scales seamlessly with more offline data. As the dataset expands, the diffusion prior learns richer locomotion skills, 
+            which the policy leverages to master new terrains without retraining. Experiments demonstrate that DreamPolicy achieves an average 
+            of 90% success rates in training environments and an average of 20% higher success on unseen terrains than the prevalent method. 
+            It also generalizes to perturbed and composite scenarios where prior approaches collapse. By unifying offline data, diffusion-based 
+            trajectory synthesis, and policy optimization, DreamPolicy overcomes the "one task, one policy" bottleneck, establishing a paradigm 
+            for scalable, data-driven humanoid control.                           
+          </p>
+        </div>
+      </div>
+    </div>
+</section> 
+
+<!--/ Method Overview. -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="container is-max-desktop">
+      <h2 class="title is-3">Overview</h2>
+
+          <div >
+            <figure class="image" style="margin-bottom: 30px;">
+              <img src="./static/image/overview_image.png" class="image-size">
+            </figure>
+
+            <h2 class="subtitle" style="text-align: left; font-size: 17px;">
+              Framework of DreamPolicy. The system is decomposed into two parts: (1) Terrain-aware humanoid locomotion 
+              skill data collection, sufficient humanoid locomotion skill data on various challenging terrains will 
+              be collected; (2) DreamPolicy, training a unified policy across diverse terrains using skill data and 
+              humanoid motion imagery via Auto-Regressive Diffusion Model.
+              </h2>
+            </p>
+          </div>
+        <br/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Terrain Visualization</h2>
+          <div class="content">
+            <img src="./static/image/terrain_intro.png"
+                 alt="Interpolate start reference image."
+                 width="100%"/>
+            <p>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="container is-max-desktop">
+  <h2 class="title is-3 border-b-1px mb-4" >Qualitative Results in Single-Terrain Scenarios</h2>
+  <br>
+  <div class="columns is-centered">
+    <!-- <div class="column is-full-width"> -->
+      <h3 class="title is-4">Flat & Stair & Parkour</h3>
+    <!-- </div> -->
+  </div>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">    
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+            <div class="video-speed">1x</div>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+</div>
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <!-- <div class="column is-full-width"> -->
+      <h3 class="title is-4">Bridge & Gap & Uneven</h3>
+    <!-- </div> -->
+  </div>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">    
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+            <div class="video-speed">1x</div>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+</div>
+
+<div class="container is-max-desktop">
+  <h2 class="title is-3 border-b-1px mb-4" >Qualitative Results in Multi-Terrain Scenarios</h2>
+  <br>
+  <div class="columns is-centered">
+    <!-- <div class="column is-full-width"> -->
+      <h3 class="title is-4">Flat & Stair & Parkour</h3>
+    <!-- </div> -->
+  </div>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">    
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+            <div class="video-speed">1x</div>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+</div>
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <!-- <div class="column is-full-width"> -->
+      <h3 class="title is-4">Bridge & Gap & Uneven</h3>
+    <!-- </div> -->
+  </div>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">    
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+            <div class="video-speed">1x</div>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+</div>
+
+<div class="container is-max-desktop">
+  <h2 class="title is-3 border-b-1px mb-4" >Qualitative Results in Unseen-Terrain Scenarios</h2>
+  <br>
+  <div class="columns is-centered">
+    <!-- <div class="column is-full-width"> -->
+      <h3 class="title is-4">Flat & Stair & Parkour</h3>
+    <!-- </div> -->
+  </div>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">    
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+            <div class="video-speed">1x</div>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+</div>
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <!-- <div class="column is-full-width"> -->
+      <h3 class="title is-4">Bridge & Gap & Uneven</h3>
+    <!-- </div> -->
+  </div>
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">    
+      <div class="container">
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+            <div class="video-speed">1x</div>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/video/sample.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
